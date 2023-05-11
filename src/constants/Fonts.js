@@ -1,9 +1,6 @@
 export const Fonts = {
-    regular: 'Roboto-Regular',
-    bold: 'Roboto-Bold',
-    italic: 'Roboto-Italic',
-    boldItalic: 'Roboto-BoldItalic',
-    light: 'Roboto-Light',
-    medium: 'Roboto-Medium',
-  };
-  
+  Weight500: 'Inter-Medium',
+  Weight600: 'Inter-SemiBold',
+  Weight700: 'Inter-Bold',
+  Weight800: 'Inter-ExtraBold',
+};

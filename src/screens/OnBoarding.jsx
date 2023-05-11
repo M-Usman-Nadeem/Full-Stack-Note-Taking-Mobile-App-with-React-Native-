@@ -14,6 +14,7 @@
     fontPixel,
     pixelSizeVertical,
   } from '../utils/ResponsiveDesign';
+  import { Fonts } from '../constants/Fonts';
   const {width} = Dimensions.get('screen');
   import {COLOR} from '../constants/Colors';
   const Item = ({item}) => {
@@ -50,7 +51,8 @@
 
     return (
       <View style={styles.container}>
-        <View>
+       <View style={styles.childContainerOne}>
+       <View>
           <FlatList
           ref={flatListRef}
             horizontal
@@ -79,12 +81,17 @@
               );
             })}
         </View>
+       </View>
+       <View style={styles.childContainerTwo}>
+
         <TouchableOpacity style={styles.startedBtn}>
           <Text style={styles.getStartedTxt}>Let’s Get Started</Text>
           <Image
             source={require('../assets/images/arrow-right.png')}
             style={styles.arrowRight}></Image>
         </TouchableOpacity>
+       </View>
+
       </View>
     );
   };
@@ -96,7 +103,15 @@
       backgroundColor: COLOR.purple,
       flex: 1,
       justifyContent: 'flex-end',
+    },
+    childContainerOne:{
+flex:2.2,
+justifyContent:"flex-end",
+    },childContainerTwo:{
+      flex:1,
+      justifyContent:"flex-end",
       paddingBottom: pixelSizeVertical(84),
+
     },
     illustrationImg: {
       width: widthPixel(280),
@@ -108,24 +123,25 @@
       fontSize: fontPixel(20),
       color: COLOR.white,
       alignSelf: 'center',
+      fontFamily:Fonts.Weight700
     },
     paginationContainer:{
       flexDirection: 'row',
       alignSelf: 'center',
       gap: pixelSizeHorizontal(12),
       marginTop: pixelSizeVertical(40),
-      marginBottom: pixelSizeVertical(102),
     },
     getStartedTxt: {
       color: COLOR.purple,
       fontSize: fontPixel(16),
       textAlign:'center',
       flex:1,
+      fontFamily:Fonts.Weight500
       
     },
     arrowRight: {
       width: 16,
-      height: 10,
+      height: 14,
     },
     startedBtn: {
       backgroundColor: COLOR.white,
