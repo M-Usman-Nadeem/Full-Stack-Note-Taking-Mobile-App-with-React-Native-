@@ -29,7 +29,8 @@
     );
   };
 
-  const Onboarding = () => {
+  const Onboarding = ({navigation}) => {
+    
     const [activeIndex,setActiveIndex]=useState(0)
     const flatListRef = React.useRef(null)
 
@@ -84,7 +85,7 @@
        </View>
        <View style={styles.childContainerTwo}>
 
-        <TouchableOpacity style={styles.startedBtn}>
+        <TouchableOpacity style={styles.startedBtn} onPress={()=>navigation.navigate('Login')}>
           <Text style={styles.getStartedTxt}>Let’s Get Started</Text>
           <Image
             source={require('../assets/images/arrow-right.png')}

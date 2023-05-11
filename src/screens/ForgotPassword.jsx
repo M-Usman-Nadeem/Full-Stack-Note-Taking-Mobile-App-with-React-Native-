@@ -18,7 +18,7 @@ import {
 import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
 
-const Login = () => {
+const ForgotPassword = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backToLoginTxtContainer}>
@@ -64,7 +64,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
   backToLoginTxtContainer: {

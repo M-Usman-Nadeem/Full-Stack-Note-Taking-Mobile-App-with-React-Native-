@@ -18,11 +18,11 @@ import {
 import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
 
-const Login = () => {
+const Register = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backToLoginTxtContainer}>
-        <Image
+      <TouchableOpacity style={styles.backToLoginTxtContainer}  onPress={()=>navigation.navigate('Login')}>
+        <Image 
           source={require('../assets/images/Icon.png')}
           style={styles.backArrow}
           />
@@ -95,7 +95,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
 
 const styles = StyleSheet.create({
   backToLoginTxtContainer: {

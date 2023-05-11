@@ -18,7 +18,7 @@ import {
 import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
 
-const Login = () => {
+const Login = ({navigation}) => {
   return (
     <View style={styles.container}>
 
@@ -72,7 +72,7 @@ const Login = () => {
         </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.RegisterBtnContainer}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
           <Text style={styles.RegisterBtnTxt}>
             Don’t have any account? Register here
           </Text>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: fontPixel(32),
     fontFamily: Fonts.Weight700,
     color: COLOR.black,
-    marginBottom:pixelSizeVertical(16)
+    marginBottom:pixelSizeVertical(12)
   },
   InpLabel: {fontFamily: Fonts.Weight500, color: COLOR.black,marginBottom:pixelSizeVertical(12)},
   border: {
@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
   txtInp:{
     borderRadius:8,
     paddingLeft:pixelSizeHorizontal(16),
-    color:COLOR.baseGrey
+    color:COLOR.baseGrey,
+    height:54
   },
   forgotPassTxt: {
     fontFamily: Fonts.Weight500,
@@ -116,7 +117,8 @@ const styles = StyleSheet.create({
     alignSelf:'flex-start',
     fontSize: fontPixel(16),
     lineHeight: fontPixel(16),
-    marginTop:pixelSizeVertical(12)
+    marginTop:pixelSizeVertical(12),
+    marginBottom:pixelSizeVertical(40)
   },
   loginBtn: {
     backgroundColor: COLOR.purple,
@@ -125,7 +127,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingHorizontal: pixelSizeHorizontal(22),
     paddingVertical: pixelSizeVertical(20),
-  //  marginTop:pixelSizeVertical(40),
     borderRadius: 100,
 
   },
@@ -159,7 +160,6 @@ const styles = StyleSheet.create({
     borderRadius:100,
     alignItems:'center',
     justifyContent:'center',
-    // marginBottom:pixelSizeVertical(32)
     
   },
             loginWithGoogleBtnTxt:{
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
               color: COLOR.purple,
               fontSize: fontPixel(16),
               textAlign:'center',
-            //  paddingBottom:pixelSizeVertical(24)
+             paddingVertical:pixelSizeVertical(10)
 
             }
 });
