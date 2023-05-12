@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {
@@ -17,40 +17,42 @@ import {
 } from '../utils/ResponsiveDesign';
 import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
-
+import useRegister from '../hooks/UseRegister';
 const Register = ({navigation}) => {
+  const {registerationFormData, setRegisterationFormData,registerUser} = useRegister();
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backToLoginTxtContainer}  onPress={()=>navigation.navigate('Login')}>
-        <Image 
+      <TouchableOpacity
+        style={styles.backToLoginTxtContainer}
+        onPress={() => navigation.navigate('Login')}>
+        <Image
           source={require('../assets/images/Icon.png')}
           style={styles.backArrow}
-          />
+        />
 
         <Text style={styles.backToLoginTxt}>Back to Login</Text>
       </TouchableOpacity>
-      <ScrollView >
-<View >
-
-      <View>
-       <Text style={styles.loginTxt}>Register</Text>
-        <Text style={styles.notesIdea}>And start taking notes</Text>
-       </View>
+      <ScrollView>
+        <View>
+          <View>
+            <Text style={styles.loginTxt}>Register</Text>
+            <Text style={styles.notesIdea}>And start taking notes</Text>
           </View>
+        </View>
 
-
-       
         <View
-          style={{ 
-    gap:pixelSizeVertical(32)
-          
+          style={{
+            gap: pixelSizeVertical(32),
           }}>
           <View>
             <Text style={styles.InpLabel}>Full Name</Text>
             <TextInput
               style={[styles.border, styles.txtInp]}
               placeholder="Example: John Doe"
-              placeholderTextColor={'#C8C5CB'}
+              placeholderTextColor={COLOR.baseGrey}
+              onChangeText={text =>
+                setRegisterationFormData({...registerationFormData, name: text})
+              }
             />
           </View>
           <View>
@@ -59,6 +61,9 @@ const Register = ({navigation}) => {
               style={[styles.border, styles.txtInp]}
               placeholder="Example: johndoe@gmail.com"
               placeholderTextColor={COLOR.baseGrey}
+              onChangeText={text =>
+                setRegisterationFormData({...registerationFormData, email: text})
+              }
             />
           </View>
           <View>
@@ -67,6 +72,9 @@ const Register = ({navigation}) => {
               style={[styles.border, styles.txtInp]}
               placeholder="********"
               placeholderTextColor={COLOR.baseGrey}
+              onChangeText={text =>
+                setRegisterationFormData({...registerationFormData, password: text})
+              }
             />
           </View>
           <View>
@@ -74,23 +82,21 @@ const Register = ({navigation}) => {
             <TextInput
               style={[styles.border, styles.txtInp]}
               placeholder="********"
-              
               placeholderTextColor={COLOR.baseGrey}
+          
             />
           </View>
         </View>
 
-
-      <View style={styles.subContainer2}>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginBtnTxt}>Register</Text>
-          <Image
-            source={require('../assets/images/whiteArrow.png')}
-            style={styles.arrow}></Image>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.subContainer2}>
+          <TouchableOpacity style={styles.loginBtn} onPress={()=>registerUser()}>
+            <Text style={styles.loginBtnTxt}>Register</Text>
+            <Image
+              source={require('../assets/images/whiteArrow.png')}
+              style={styles.arrow}></Image>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
-
     </View>
   );
 };
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
   backToLoginTxtContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    
+
     gap: pixelSizeHorizontal(15),
     marginTop: pixelSizeVertical(25),
   },
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
   backToLoginTxt: {
     fontFamily: Fonts.Weight500,
     fontSize: fontPixel(16),
-    color:COLOR.purple
+    color: COLOR.purple,
   },
   container: {
     flex: 1,
@@ -121,24 +127,23 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: pixelSizeHorizontal(16),
   },
-  
+
   subContainer2: {
     justifyContent: 'center',
-    marginTop:pixelSizeVertical(40),
-    marginBottom:pixelSizeVertical(24)
-
+    marginTop: pixelSizeVertical(40),
+    marginBottom: pixelSizeVertical(24),
   },
   notesIdea: {
     color: COLOR.darkGrey,
     fontSize: fontPixel(16),
-    marginBottom:pixelSizeVertical(32)
+    marginBottom: pixelSizeVertical(32),
   },
   loginTxt: {
     fontSize: fontPixel(32),
     fontFamily: Fonts.Weight700,
     color: COLOR.black,
-    marginTop:pixelSizeVertical(26),
-      marginBottom:pixelSizeVertical(16)
+    marginTop: pixelSizeVertical(26),
+    marginBottom: pixelSizeVertical(16),
   },
   InpLabel: {
     fontFamily: Fonts.Weight500,
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
   txtInp: {
     borderRadius: 8,
     paddingLeft: pixelSizeHorizontal(16),
-    height:54,
+    height: 54,
     color: COLOR.baseGrey,
   },
   forgotPassTxt: {
@@ -220,6 +225,5 @@ const styles = StyleSheet.create({
     color: COLOR.purple,
     fontSize: fontPixel(16),
     textAlign: 'center',
-
   },
 });
