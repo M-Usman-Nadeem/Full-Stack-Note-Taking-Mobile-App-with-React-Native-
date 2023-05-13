@@ -7,17 +7,21 @@
     TouchableOpacity,
     Dimensions,
   } from 'react-native';
-  import React, { useState } from 'react';
+  import React, { useState,useEffect,useRef } from 'react';
   import {
     widthPixel,
     pixelSizeHorizontal,
     fontPixel,
     pixelSizeVertical,
   } from '../utils/ResponsiveDesign';
+import useLocalStorage from '../hooks/UseLocalStorage';
   import { Fonts } from '../constants/Fonts';
+
   const {width} = Dimensions.get('screen');
   import {COLOR} from '../constants/Colors';
+  import AsyncStorage from '@react-native-async-storage/async-storage';
   const Item = ({item}) => {
+   
     return (
       <View style={{flexDirection: 'column', width}}>
         <Image source={item.path} style={styles.illustrationImg}></Image>
@@ -30,9 +34,13 @@
   };
 
   const Onboarding = ({navigation}) => {
-    
+    const {retrieveToken}=useLocalStorage()
+    useEffect(()=>{
+      // AsyncStorage.clear() for testing  purpose
+      retrieveToken()
+    },[])
     const [activeIndex,setActiveIndex]=useState(0)
-    const flatListRef = React.useRef(null)
+    const flatListRef = useRef(null)
 
     const carouselItems = [
       {id: 1, path: require('../assets/images/Illustration.png')},
