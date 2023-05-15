@@ -13,11 +13,12 @@ const Stack = createNativeStackNavigator();
 import TabNavigation from './TabNavigation.jsx';
 import CreateNotes from '../screens/CreateNotes.jsx';
 const Navigation = () => {
+
   return (
     <>
       <NavigationContainer >
          <Stack.Navigator
-          initialRouteName="TabNavigation"
+          initialRouteName="Onboarding"
           screenOptions={{headerShown: false}}>
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Register" component={Register} />
@@ -35,7 +36,7 @@ const Navigation = () => {
             name="TabNavigation"
             component={TabNavigation}
           />
-           {/* <Stack.Screen name="Home" component={Home} /> */}
+           <Stack.Screen name="Home" component={Home} />
         </Stack.Navigator> 
       </NavigationContainer>
     </>

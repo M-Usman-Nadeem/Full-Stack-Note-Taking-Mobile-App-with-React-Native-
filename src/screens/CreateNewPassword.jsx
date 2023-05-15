@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,Alert
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   fontPixel,
   heightPixel,
@@ -17,8 +17,22 @@ import {
 } from '../utils/ResponsiveDesign';
 import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
+import axios from 'axios';
 
-const Login = () => {
+const CreateNewPassword = ({navigation}) => {
+  const [password,setPassword]=useState()
+  async function updatePassword(){
+    const {data}=await axios.put('http://192.168.50.65:8000/api/updatePassword',{
+      email:"mu538183@gmail.com",
+      password
+    })
+    if(data.success){
+
+      Alert.alert('your password has been updated.Kindly login with  your updated password')
+      navigation.navigate('Login')
+    }
+
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backToLoginTxtContainer}>
@@ -28,7 +42,7 @@ const Login = () => {
           />
 
         <Text style={styles.backToLoginTxt}>Back to Login</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> 
      
 <View style={styles.childContainer1}>
 
@@ -44,6 +58,7 @@ const Login = () => {
         <View>
             <Text style={styles.InpLabel}>Password</Text>
             <TextInput
+            onChangeText={text=>setPassword(text)}
               style={[styles.border, styles.txtInp]}
               placeholder="********"
               placeholderTextColor={COLOR.baseGrey}
@@ -68,7 +83,7 @@ const Login = () => {
 
 
       <View style={styles.subContainer2}>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={()=>updatePassword()}>
           <Text style={styles.loginBtnTxt}>Create Password</Text>
       
         </TouchableOpacity>
@@ -80,7 +95,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default CreateNewPassword;
 
 const styles = StyleSheet.create({
   passwordReq:{color:COLOR.baseGrey,fontSize:fontPixel(12),marginTop:pixelSizeVertical(12)},

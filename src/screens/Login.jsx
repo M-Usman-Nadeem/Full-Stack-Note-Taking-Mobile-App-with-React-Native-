@@ -50,7 +50,7 @@ const Login = ({navigation}) => {
           </View>
         </View>
       </KeyboardAvoidingView>
-      <Pressable >
+      <Pressable onPress={()=>navigation.navigate('ForgotPassword')}>
 
       <Text style={styles.forgotPassTxt}>Forgot Password</Text>
       </Pressable>

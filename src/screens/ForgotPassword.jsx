@@ -6,21 +6,58 @@ import {
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,Alert
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   fontPixel,
   heightPixel,
   pixelSizeHorizontal,
-  pixelSizeVertical,
+  pixelSizeVertical
 } from '../utils/ResponsiveDesign';
 import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
+import axios from 'axios';
+import Modal from "react-native-modal";
+const ForgotPassword = ({navigation}) => {
+  const [otp,setOtp]=useState(null)
+  const [userWritternOtp,setUserWritternOtp]=useState('')
+  const [showModal,SetShowModal]=useState(false)
+  const [email,setEmail]=useState('')
+  const sendCode=async()=>{ 
+    const {data} = await axios.get(`http://192.168.50.65:8000/api/verifyEmail/${email}`);
+    SetShowModal(true)
+    setOtp(data.Otp)
+    console.log(data)
+  }
+  function checkOtp(){
+    
+      if(userWritternOtp==otp){
+    SetShowModal(false)
 
-const ForgotPassword = () => {
+        navigation.navigate('CreateNewPassword')
+      }
+      else{
+        Alert.alert('wrong Otp')
+      }
+    
+  }
   return (
     <View style={styles.container}>
+      
+       <Modal isVisible={showModal}>
+        <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }}>
+        <View style={styles.modalView}>
+            <Text style={styles.modalText}>Enter Otp</Text>
+            <TextInput style={[styles.otpInp,styles.border]} onChangeText={(text)=>setUserWritternOtp(text)} value={userWritternOtp}></TextInput>
+       
+            <TouchableOpacity style={styles.modalBtn} onPress={()=>checkOtp()}>
+          <Text style={styles.loginBtnTxt}>Enter</Text>
+      
+        </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <TouchableOpacity style={styles.backToLoginTxtContainer}>
         <Image
           source={require('../assets/images/Icon.png')}
@@ -42,6 +79,8 @@ const ForgotPassword = () => {
           
             <Text style={styles.InpLabel}>Email Address</Text>
             <TextInput
+            onChangeText={text=>setEmail(text)}
+            value={email}
               style={[styles.border, styles.txtInp]}
               placeholder="Example: johndoe@gmail.com"
               placeholderTextColor={COLOR.baseGrey}
@@ -52,7 +91,7 @@ const ForgotPassword = () => {
 
 
       <View style={styles.subContainer2}>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={()=>sendCode()}>
           <Text style={styles.loginBtnTxt}>Send Code</Text>
       
         </TouchableOpacity>
@@ -65,6 +104,7 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+
 
 const styles = StyleSheet.create({
   backToLoginTxtContainer: {
@@ -154,5 +194,28 @@ const styles = StyleSheet.create({
     fontSize: fontPixel(16),
     textAlign: 'center',
 
-  },
+  },modalText:{
+    color:COLOR.black,alignSelf:'center'
+  },modalView:{
+    gap:10,
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:COLOR.background,
+    padding:20,
+    width:pixelSizeHorizontal(300),
+    borderRadius:5
+
+  },otpInp:{color:COLOR.black,
+    borderRadius:5,
+
+  width:'80%',},
+  border: {
+    borderColor: COLOR.baseGrey,
+    borderWidth: 1,
+  },modalBtn:{
+    width:'50%',  flexDirection: 'row',
+    alignItems: 'center',  borderRadius: 100,
+    alignSelf:'center',
+    height:40,  backgroundColor: COLOR.purple,
+  }
 });
