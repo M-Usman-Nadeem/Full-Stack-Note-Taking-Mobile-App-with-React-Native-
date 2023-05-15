@@ -8,7 +8,8 @@ export const COLOR = {
     dotlightColor:'#EFE9F7',
  darkGrey:'#827D89',
  baseGrey:'#C8C5CB',
- lightGrey:'#EFEEF0'
+ lightGrey:'#EFEEF0',
+ primaryBg:'#FAF8FC'
   };
   
   // src/constants/fonts.js

@@ -36,7 +36,8 @@ import useLocalStorage from '../hooks/UseLocalStorage';
   const Onboarding = ({navigation}) => {
     const {retrieveToken}=useLocalStorage()
     useEffect(()=>{
-      // AsyncStorage.clear() for testing  purpose
+      //  for testing  purpose
+      // AsyncStorage.clear() 
       retrieveToken()
     },[])
     const [activeIndex,setActiveIndex]=useState(0)

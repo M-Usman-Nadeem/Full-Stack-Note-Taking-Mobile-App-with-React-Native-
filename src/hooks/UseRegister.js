@@ -19,6 +19,7 @@ const UseRegister = () => {
       'http://192.168.50.65:8000/api/register',
       registerationFormData,
     );
+    console.log(res.data)
 
     setToken(res.data.token);
   }

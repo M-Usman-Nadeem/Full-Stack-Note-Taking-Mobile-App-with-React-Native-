@@ -1,191 +1,242 @@
-// import {StyleSheet, Text, View, Image} from 'react-native';
-// import React ,{useState}from 'react';
-// import HomeScreen from '../screens/homeScreen/HomeScreen';
-// import ChatScreen from '../screens/chatScreen/ChatScreen';
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// import {
-//   fontPixel,
-//   heightPixel,
-//   pixelSizeHorizontal,
-//   pixelSizeVertical,
-//   widthPixel,
-// } from '../utils/ResponsiveDesign';
-// import { useRoute } from '@react-navigation/native';
-// import LinearGradient from 'react-native-linear-gradient';
-// import { useIsFocused } from '@react-navigation/native';
-// const Tab = createBottomTabNavigator();
-// const Meal = () => {
-//   return <></>;
-// };
-// const Grocery = () => {
-//   return <></>;
-// };
-// const Chat =(prop) => {
-
-  
-//   return <>
-//   <ChatScreen/>
-//   </>;
-// };
-// const Home = (prop) => {
-//   const isFocused = useIsFocused();
-// prop?.setState(isFocused&&'home')
-//   return <>
-//   <HomeScreen/>
-//   </>
-// };
-// const TabNavigation = () => {
-//   const [state,setState]=useState('')
-//   const route = useRoute();
-//   return (
-//     <>
+import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
+import React, {Children, useState} from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../utils/ResponsiveDesign';
+import {useRoute} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
+const Tab = createBottomTabNavigator();
+import Home from '../screens/Home';
+import Finished from '../screens/Finished';
+import { useNavigation } from '@react-navigation/native';
+import Setting from '../screens/Setting';
+import Search from '../screens/Search';
+import {COLOR} from '../constants/Colors';
+import CreateNotes from '../screens/CreateNotes';
+const TabNavigation = () => {
+  const [state, setState] = useState('');
+  const route = useRoute();
+  const AddButton = ({children}) => {
+    const navigation=useNavigation()
+    return (
+        <View style={{padding:8,backgroundColor:COLOR.primaryBg,  justifyContent: 'center',
+        alignItems: 'center',height:widthPixel(80),    borderRadius: 100,  top: -pixelSizeVertical(60),}}>
 
 
-//            {
-// state=='home'&&<LinearGradient colors={['rgba(255, 255, 255, 0)','#FFFFFF']}  
-            
-//              style={{ height: pixelSizeVertical(36),position:'absolute',bottom:pixelSizeVertical(45),
-//            width: '100%', zIndex: 100 }}/>
-//            }
-//       <View style={{ flex: 1 }}>
-//       <Tab.Navigator
-//         activeColor=""
-//         initialRouteName="Home"
-//         screenOptions={{
-          
-          
-//           tabBarStyle: {
-//             paddingTop: pixelSizeVertical(7),
-//             height: pixelSizeVertical(45),
-//             flexDirection: 'row',
-//             justifyContent:'space-between',
-            
-            
-//             borderTopWidth: 0,
-//           elevation:0
-//           },
+      <Pressable onPress={()=>navigation.navigate('CreateNotes')}
+        style={{
+            padding:8,
 
-//           // tabBarItemStyle: {flex: 1, justifyContent: 'space-evenly',padding:0,margin:0, elevation:0},
-//         }}>
-//         <Tab.Screen
-//           name="Home"
-//          style={styles.BottomTabBarItem}
-       
-//           options={{
-//             headerShown: false,
-          
-//             tabBarIcon: ({color, size, focused}) => {
-           
-//               return (
-//                 <Image
-//                 style={styles.icon}
-//                   source={require('../assets/images/t.png')}
-//                   />
-//                 );
-//             },
-//             tabBarLabel: () => {
-//               return <Text style={styles.label}>Today</Text>;
-//             },
-//           }}
-//           >
-//             {()=><Home setState={setState}/>}
-//           </Tab.Screen>
+          zIndex: 999,
+      
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: widthPixel(64),
+          height: widthPixel(64),
+          backgroundColor: COLOR.purple,
+          borderRadius: 100,
+          shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 4,
+},
+shadowOpacity: 0.30,
+shadowRadius: 4.65,
 
-//         <Tab.Screen
-//           name="Meal"
-//           component={Meal}
-//           options={{
-//             headerShown: false,
-//             tabBarIcon: ({color, size, focused}) => {
-           
+elevation: 2,
+        }}>
+        <View>{children}</View>
+      </Pressable>
+      </View>
 
-//               return (
-//                 <Image
-//                 style={styles.icon}
-//                 source={require('../assets/images/meal.png')}
-//                 />
-//                   );
-//             },
-//             tabBarLabel: () => {
-//               return <Text style={styles.label}>Meal Plan</Text>;
-//             },
-//           }}
-//         />
-//         <Tab.Screen
-//           name="Grocery"
-//           component={Grocery}
-//           options={{
-//             headerShown: false,
-//             tabBarIcon: ({color, size, focused}) => {
-//               return (
-//                 <Image
-//                   style={[styles.icon,{marginRight:-pixelSizeHorizontal(20)}]}
-//                   source={require('../assets/images/grocery.png')}
-//                   />
-//                 );
-//             },
-//             tabBarLabel: () => {
-//               return <Text style={[styles.label,{marginRight:-pixelSizeHorizontal(20)}]}>Grocery List</Text>;
-//             },
-//           }}
-//           />
-//         <Tab.Screen
-//           name="Chat"
-       
-//           options={{
-//             headerShown: false,
-//             tabBarIcon: ({color, size, focused}) => {
+    );
+  };
+  return (
+    <Tab.Navigator
+ 
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarStyle: {
+          paddingTop: pixelSizeVertical(20),
+          height: pixelSizeVertical(84),
 
-//               return (
-//                 <>
-//                   {focused && (
-//                     <View
-//                       style={{
-//                         backgroundColor: 'rgba(255, 53, 56, 1)',
-//                         marginRight: pixelSizeVertical(8),
-//                         marginBottom: -2,
-//                         borderRadius: 100,
-//                         width: widthPixel(5.5),
-//                         height: widthPixel(5.5),
-//                       }}></View>
-//                   )}
-//                   <Image
-//                     style={[styles.icon,{marginRight:-pixelSizeHorizontal(15)}]}
-//                     source={require('../assets/images/chat.png')}
-//                   />
-//                 </>
-//               );
-//             },
-//             tabBarLabel: () => {
-//               return <Text style={[styles.label,{marginRight:-pixelSizeHorizontal(16)}]}>{`Chat`}</Text>;
-//             },
-//           }}
-//           >
-//             {()=><Chat setState={setState}/>}
-//           </Tab.Screen>
-//       </Tab.Navigator>
-//     </View>
-//               </>
-//   );
-// };
+          borderTopWidth: 0,
+          elevation: 0,
+        },
+      }}>
+      <Tab.Screen
+        name="Home"
+        style={styles.BottomTabBarItem}
+        component={Home}
+        options={{
+          headerShown: false,
 
-// export default TabNavigation;
+          tabBarIcon: ({color, size, focused}) => {
+            return (
+              <>
+                <Image
+                  style={[
+                    styles.icon,
+                    {tintColor: focused ? COLOR.purple : COLOR.darkGrey},
+                  ]}
+                  source={require('../assets/images/homeIcon.png')}
+                />
+              </>
+            );
+          },
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text
+                style={[
+                  styles.label,
+                  {color: focused ? COLOR.purple : COLOR.darkGrey},
+                ]}>
+                Home
+              </Text>
+            );
+          },
+        }}></Tab.Screen>
 
-// const styles = StyleSheet.create({
-//   icon: {
-//     width: widthPixel(16),
-//     height: heightPixel(16),
-//     resizeMode: 'contain',
-//     marginBottom: pixelSizeVertical(2),
-    
-//   },
-//   label: {
-//     fontSize: fontPixel(9),
-//     fontFamily: 'SF-Pro-Display-Medium',
-//     color: 'black',
-//   },
-//   BottomTabBarItem:{
-//     width:10  ,
-//     backgroundColor:'green'
-//   }
-// });
+      <Tab.Screen
+        name="Finished"
+        component={Finished}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color, size, focused}) => {
+            return (
+              <Image
+                style={[
+                  styles.icon,
+                  {
+                    marginRight: -pixelSizeHorizontal(0),
+                    tintColor: focused ? COLOR.purple : COLOR.darkGrey,
+                  },
+                ]}
+                source={require('../assets/images/finishedIcon.png')}
+              />
+            );
+          },
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text
+                style={[
+                  styles.label,
+                  {
+                    marginRight: -pixelSizeHorizontal(0),
+                    color: focused ? COLOR.purple : COLOR.darkGrey,
+                  },
+                ]}>
+                Finished
+              </Text>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="CreateNotes"
+        component={CreateNotes}
+        options={{
+          tabBarIcon: () => {
+            return (
+                
+              <Image
+                source={require('../assets/images/plus.png')}
+                style={{width: widthPixel(21), height: widthPixel(21), resizeMode: 'contain'}}
+              />
+            );
+          },
+          tabBarLabel: () => null,
+          tabBarButton: props => <AddButton  {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color, size, focused}) => {
+            return (
+              <Image
+                style={[
+                  styles.icon,
+                  {
+                    marginRight: -pixelSizeHorizontal(0),
+                    tintColor: focused ? COLOR.purple : COLOR.darkGrey,
+                  },
+                ]}
+                source={require('../assets/images/searchIcon.png')}
+              />
+            );
+          },
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text
+                style={[
+                  styles.label,
+                  {
+                    marginRight: -pixelSizeHorizontal(0),
+                    color: focused ? COLOR.purple : COLOR.darkGrey,
+                  },
+                ]}>
+                Search
+              </Text>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color, size, focused}) => {
+            return (
+              <Image
+                style={[
+                  styles.icon,
+                  {
+                    marginRight: -pixelSizeHorizontal(0),
+                    tintColor: focused ? COLOR.purple : COLOR.darkGrey,
+                  },
+                ]}
+                source={require('../assets/images/settingsIcon.png')}
+              />
+            );
+          },
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text
+                style={[
+                  styles.label,
+                  {
+                    marginRight: -pixelSizeHorizontal(0),
+                    color: focused ? COLOR.purple : COLOR.darkGrey,
+                  },
+                ]}>
+                Settings
+              </Text>
+            );
+          },
+        }}></Tab.Screen>
+    </Tab.Navigator>
+  );
+};
+
+export default TabNavigation;
+
+const styles = StyleSheet.create({
+  icon: {
+    width: widthPixel(24),
+    height: widthPixel(24),
+    resizeMode: 'contain',
+    marginBottom: pixelSizeVertical(2),
+  },
+  label: {
+    fontSize: fontPixel(10),
+  },
+});

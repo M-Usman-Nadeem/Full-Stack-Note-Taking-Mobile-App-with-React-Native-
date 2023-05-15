@@ -6,12 +6,10 @@ const navigation=useNavigation()
     const  retrieveToken = async () => {
         try {
           const value = await AsyncStorage.getItem('token');
-          if (value !== null) {
-            // We have data!!
-            console.log('token ggett',value);
-            navigation.navigate('Home')
-          }
+         return value
         } catch (error) {
+          console.log('AsyncStorage error',error)
+
           // Error retrieving data
         }
       };
@@ -23,8 +21,7 @@ const navigation=useNavigation()
               'token',
               token,
               );
-              console.log(token,'token stored')
-             navigation.navigate('Home') 
+            
             }
         } catch (error) {
             console.log('AsyncStorage error',error)

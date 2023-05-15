@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView,Pressable
 } from 'react-native';
 import React from 'react';
 import {
@@ -50,7 +50,10 @@ const Login = ({navigation}) => {
           </View>
         </View>
       </KeyboardAvoidingView>
+      <Pressable >
+
       <Text style={styles.forgotPassTxt}>Forgot Password</Text>
+      </Pressable>
 
       <View style={styles.subContainer2}>
         <View>
