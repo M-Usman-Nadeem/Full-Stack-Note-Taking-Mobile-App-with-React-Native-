@@ -6,7 +6,8 @@ const navigation=useNavigation()
     const  retrieveToken = async () => {
         try {
           const value = await AsyncStorage.getItem('token');
-         return value
+          
+            return value
         } catch (error) {
           console.log('AsyncStorage error',error)
 

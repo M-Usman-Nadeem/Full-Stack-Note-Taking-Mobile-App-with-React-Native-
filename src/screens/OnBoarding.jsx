@@ -34,11 +34,20 @@ import useLocalStorage from '../hooks/UseLocalStorage';
   };
 
   const Onboarding = ({navigation}) => {
-    const {retrieveToken}=useLocalStorage()
+    const {retrieveToken,setToken}=useLocalStorage()
     useEffect(()=>{
+      // setToken('fdasafsd')
+      AsyncStorage.clear()
       //  for testing  purpose
-      // AsyncStorage.clear() 
-      retrieveToken()
+      async function token(){
+
+        let token=await retrieveToken()
+        console.log(token)
+     if(token){
+      navigation.navigate('TabNavigation',{screen:"Home"})
+     }
+      }
+      token()
     },[])
     const [activeIndex,setActiveIndex]=useState(0)
     const flatListRef = useRef(null)

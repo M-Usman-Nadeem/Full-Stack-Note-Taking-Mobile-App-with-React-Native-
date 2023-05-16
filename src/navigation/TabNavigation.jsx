@@ -21,6 +21,9 @@ import CreateNotes from '../screens/CreateNotes';
 const TabNavigation = () => {
   const [state, setState] = useState('');
   const route = useRoute();
+  function EmptyScreen() {
+    return <View />;
+  }
   const AddButton = ({children}) => {
     const navigation=useNavigation()
     return (
@@ -61,6 +64,7 @@ elevation: 2,
  
       initialRouteName="Home"
       screenOptions={{
+        headerShown:false,
         tabBarStyle: {
           paddingTop: pixelSizeVertical(20),
           height: pixelSizeVertical(84),
@@ -138,8 +142,9 @@ elevation: 2,
         }}
       />
       <Tab.Screen
-        name="CreateNotes"
-        component={CreateNotes}
+      
+        name="EmptyScreen"
+        component={EmptyScreen}
         options={{
           tabBarIcon: () => {
             return (
