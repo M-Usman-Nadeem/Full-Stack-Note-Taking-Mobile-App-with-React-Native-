@@ -14,7 +14,7 @@
     fontPixel,
     pixelSizeVertical,
   } from '../utils/ResponsiveDesign';
-import useLocalStorage from '../hooks/UseLocalStorage';
+import {retrieveToken,setToken} from '../hooks/UseLocalStorage';
   import { Fonts } from '../constants/Fonts';
 
   const {width} = Dimensions.get('screen');
@@ -34,10 +34,8 @@ import useLocalStorage from '../hooks/UseLocalStorage';
   };
 
   const Onboarding = ({navigation}) => {
-    const {retrieveToken,setToken}=useLocalStorage()
     useEffect(()=>{
-      // setToken('fdasafsd')
-      AsyncStorage.clear()
+      // AsyncStorage.clear()
       //  for testing  purpose
       async function token(){
 

@@ -8,12 +8,10 @@ import {
   widthPixel,
 } from '../utils/ResponsiveDesign';
 import { useNavigation } from '@react-navigation/native';
-
 import {Fonts} from '../constants/Fonts';
 
 const Item = ({data}) => {
   const navigation=useNavigation()
-  console.log(data);
   return (
     <Pressable onPress={()=>navigation.navigate(data.item.navigation)}
       style={[

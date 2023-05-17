@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import axios from 'axios';
-import useLocalStorage from '../hooks/UseLocalStorage';
+import  {retrieveToken,setToken} from '../hooks/UseLocalStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   fontPixel,
@@ -14,7 +14,7 @@ import {Fonts} from '../constants/Fonts';
 import {COLOR} from '../constants/Colors';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 const Home = () => {
-  const {retrieveToken} = useLocalStorage();
+  
   useEffect(() => {
     const token = retrieveToken();
   }, []);

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import useLocalStorage from './UseLocalStorage'
+import {setToken} from './UseLocalStorage'
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native';
 export default function UseLogin() {
   const navigation=useNavigation()
-  const {setToken}=useLocalStorage()
     const[loginFormData,setLoginFormData]=useState({
       email:'',
       password:''

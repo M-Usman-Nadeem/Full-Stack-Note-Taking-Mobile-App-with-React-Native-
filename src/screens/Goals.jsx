@@ -5,133 +5,90 @@ import {
   Pressable,
   Image,
   TextInput,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
 import {COLOR} from '../constants/Colors';
 import {Fonts} from '../constants/Fonts';
 import {fontPixel, pixelSizeHorizontal} from '../utils/ResponsiveDesign';
+import axios from 'axios';
+import UseGoals from '../hooks/UseGoals';
+import Modal from 'react-native-modal';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getGoals,
+  updateMainTaskCheckBoxAsync,
+  updateSubtaskCheckBoxAsync
+} from '../store/userGoalsSlice';
 const Goals = () => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [type, setType] = useState('');
+  const dispatch = useDispatch();
+  const state = useSelector(state => state.userGoalsSlice);
+  const {
+    inp,
+    setInp,
+    showInp,
+    type,
+    addMainTask,
+    showInputFunc,
+    addSubTask,
+    setIdToAddSubTask,
+  } = UseGoals();
 
-  const [inp, setInp] = useState('');
-  const [selectedSubTaskIndex, setSelectedSubTaskIndex] = useState(null);
-  const [showInp, setShowInp] = useState(false);
+  useEffect(() => {
+    dispatch(getGoals());
+  }, []);
 
-  function addMainTask() {
-    setTasks([
-      ...tasks,
-      {
-        mainTask: {text: inp, checked: false},
-        subTasks: [],
-      },
-    ]);
+  // function updateSubtaskCheckBox(newValue, mainIndex, subtaskIndex) {
+  //   const arr = tasks.map((item, index) => {
+  //     if (index === mainIndex) {
+  //       let updatedItem = item.subTasks.map((item, index) => {
+  //         if (index == subtaskIndex) {
+  //           return {...item, checked: newValue};
+  //         } else {
+  //           return item;
+  //         }
+  //       });
+  //       return {...item, subTasks: updatedItem};
+  //     } else {
+  //       return item;
+  //     }
+  //   });
+  //   const newArr = arr
+  //   console.log(newArr, 'arrrr');
+  //   setTasks(newArr);
+  // }
 
-    setShowInp(false);
-  }
-
-  function addSubTask() {
-    const arr = tasks.map((item, index) => {
-      if (index === selectedSubTaskIndex) {
-        return {
-          ...item,
-          subTasks: [
-            ...item.subTasks,
-            {
-              text: inp,
-              checked: false,
-            },
-          ],
-        };
-      } else {
-        return item;
-      }
-    });
-    console.log(arr, 'subbbbbbbbb');
-    setTasks(arr);
-    setShowInp(false);
-  }
-  function updateCheckBox(checked, itemIndex) {
-    console.log(checked);
-    const arr = tasks.map((item, index) => {
-      if (index === itemIndex) {
-        if (checked) {
-          let updatedItem = item.subTasks.map((item, index) => {
-            return {...item, oldState: item.checked, checked: true};
-          });
-          return {
-            subTasks: [...updatedItem],
-            mainTask: {...item.mainTask, checked},
-          };
-        } else {
-          let updatedItem = item.subTasks.map((item, index) => {
-            return {...item, checked: item.oldState};
-          });
-          return {
-            subTasks: [...updatedItem],
-            mainTask: {...item.mainTask, checked},
-          };
-        }
-      }
-    });
-    setTasks(arr);
-  }
-  function updateSubtaskCheckBox(newValue, mainIndex, subtaskIndex) {
-    const arr = tasks.map((item, index) => {
-      if (index === mainIndex) {
-        let updatedItem = item.subTasks.map((item, index) => {
-          if (index == subtaskIndex) {
-            return {...item, checked: newValue};
-          } else {
-            return item;
-          }
-        });
-        return {...item, subTasks: updatedItem};
-      } else {
-        return item;
-      }
-    });
-    const newArr = arr.map((item, index) => {
-      let isAllChecked = item.subTasks.every(
-        (item, index) => item.checked === true,
-      );
-      if (isAllChecked) {
-        return {...item, mainTask: {...item.mainTask, checked: true}};
-      } else {
-        return {...item, mainTask: {...item.mainTask, checked: false}};
-      }
-    });
-    console.log(newArr, 'arrrr');
-    setTasks(newArr);
-  }
-  function showInputFunc(type) {
-    setType(type);
-    setShowInp(!showInp);
-  }
-  function addSub(index) {
-    setType('subTasks');
-    setSelectedSubTaskIndex(index);
-    setShowInp(!showInp);
-  }
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      {
+        <Modal isVisible={state.showLoading}>
+          <View>
+            <ActivityIndicator size="large" color={COLOR.white} />
+          </View>
+        </Modal>
+      }
+
       <Text style={styles.heading}>Monthly Needs</Text>
 
-      {tasks.map((item, mainIndex) => {
+      {state.goals.map((mainItem, mainIndex) => {
         return (
           <View key={mainIndex}>
             <CheckBox
               disabled={false}
               onCheckColor={'#6A3EA1'}
               tintColors={{true: COLOR.purple, false: COLOR.baseGrey}}
-              value={item.mainTask.checked}
-              onValueChange={newValue => updateCheckBox(newValue, mainIndex)}
+              value={mainItem.mainTask.checked}
+              onValueChange={checked =>
+                dispatch(updateMainTaskCheckBoxAsync({checked, id:mainItem._id}))
+              }
             />
-
-            <Text style={styles.taskTxt}>{item?.mainTask.text}</Text>
-            {item.subTasks.map((item, subtaskIndex) => {
+            <Text style={styles.taskTxt}>{mainItem?.mainTask.text}</Text>
+            {mainItem.subTask.length > 0 && (
+              <Text style={styles.heading}>subtask</Text>
+            )}
+            {mainItem.subTask.map((item, subtaskIndex) => {
               return (
                 <View key={subtaskIndex}>
                   <CheckBox
@@ -139,18 +96,24 @@ const Goals = () => {
                     onCheckColor={'#6A3EA1'}
                     tintColors={{true: COLOR.purple, false: COLOR.baseGrey}}
                     value={item.checked}
-                    onValueChange={newValue =>
-                      updateSubtaskCheckBox(newValue, mainIndex, subtaskIndex)
+                    onValueChange={checked =>
+                      dispatch(
+                        updateSubtaskCheckBoxAsync(
+                         { checked,
+                          mainId:mainItem._id,
+                          subtaskIndex}
+                          )
+                          )
                     }
                   />
                   <Text style={styles.taskTxt}>{item.text}</Text>
                 </View>
               );
             })}
-            {item?.mainTask && (
+            {mainItem?.mainTask && (
               <Pressable
                 style={styles.mainTaskBtn}
-                onPress={() => addSub(mainIndex)}>
+                onPress={() => setIdToAddSubTask(mainItem._id)}>
                 <Image
                   source={require('../assets/images/plusIcon.png')}
                   style={styles.plusIcon}></Image>
@@ -180,7 +143,7 @@ const Goals = () => {
           style={styles.plusIcon}></Image>
         <Text style={[styles.mainTaskTxt, styles.txt]}>Add main task</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 };
 

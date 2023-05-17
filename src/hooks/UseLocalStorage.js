@@ -1,8 +1,7 @@
 import React from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-const useLocalStorage = () => {
-const navigation=useNavigation()
+
+
     const  retrieveToken = async () => {
         try {
           const value = await AsyncStorage.getItem('token');
@@ -29,12 +28,7 @@ const navigation=useNavigation()
         }
       };
     
-  return (
-    {
-      retrieveToken,setToken
-    }
-  )
-}
 
-export default useLocalStorage
+
+export {retrieveToken,setToken}
 
