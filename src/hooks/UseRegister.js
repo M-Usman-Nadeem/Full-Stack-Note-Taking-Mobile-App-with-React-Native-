@@ -4,9 +4,8 @@ import {useState} from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import useLocalStorage from './UseLocalStorage';
+import {setToken} from './UseLocalStorage';
 const UseRegister = () => {
-  const {setToken} = useLocalStorage();
   const navigation = useNavigation();
   const [registerationFormData, setRegisterationFormData] = useState({
     name: '',
@@ -19,8 +18,8 @@ const UseRegister = () => {
       'http://192.168.50.65:8000/api/register',
       registerationFormData,
     );
-    console.log(res.data)
-
+    console.log(res.data);
+    navigation.navigate('Home')
     setToken(res.data.token);
   }
   return {

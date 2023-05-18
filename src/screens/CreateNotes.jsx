@@ -9,11 +9,12 @@ import {
 } from '../utils/ResponsiveDesign';
 import { useNavigation } from '@react-navigation/native';
 import {Fonts} from '../constants/Fonts';
+import Header from '../components/Header';
 
 const Item = ({data}) => {
   const navigation=useNavigation()
   return (
-    <Pressable onPress={()=>navigation.navigate(data.item.navigation)}
+    <Pressable  onPress={()=>navigation.navigate(data.item.navigation)}
       style={[
         styles[data.item.heading.split(' ')[0]],
         styles.listItemContainer,
@@ -34,7 +35,7 @@ const Item = ({data}) => {
             styles[data.item.heading.split(' ')[0] + 'Txt'],
             styles.listItemTxt,
           ]}
-          // numberOfLines={2} // Set the desired number of lines
+        
           >
           {data.item?.description}
         </Text>
@@ -87,17 +88,8 @@ const CreateNotes = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Pressable
-          onPress={() => navigation.navigate('TabNavigation')}
-          style={styles.backBtn}>
-          <Image
-            source={require('../assets/images/Icon.png')}
-            style={styles.backArrow}></Image>
-          <Text style={styles.backTxt}>Back</Text>
-        </Pressable>
-        <Text style={styles.headerNotes}>New Notes</Text>
-      </View>
+ 
+      <Header txt={'New Notes'} onPress={() => navigation.navigate('TabNavigation')} />
       <View style={styles.listContainer}>
         <Text style={styles.Notestxt}>{` What Do You Want to\n Notes?`}</Text>
 
@@ -129,6 +121,8 @@ const styles = StyleSheet.create({
   },
   listItemContainer: {
     flexDirection: 'row',
+    alignItems:'center',
+    backgroundColor:'red',
     paddingHorizontal: pixelSizeHorizontal(16),
     paddingVertical: pixelSizeVertical(16),
     gap: pixelSizeHorizontal(14),
@@ -151,8 +145,8 @@ const styles = StyleSheet.create({
   },
   IconCont: {
     borderRadius: 100,
-    paddingHorizontal: pixelSizeHorizontal(16),
-    paddingVertical: pixelSizeVertical(16),
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
 
   Goals: {
@@ -209,15 +203,7 @@ const styles = StyleSheet.create({
     fontSize: fontPixel(16),
     fontFamily: Fonts.Weight500,
   },
-  headerNotes: {
-    flex: 0.8,
-    textAlign: 'center',
 
-    color: COLOR.black,
-
-    fontSize: fontPixel(16),
-    fontFamily: Fonts.Weight500,
-  },
   backBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -228,6 +214,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   listContainer: {
+    flex:1,
     paddingHorizontal: pixelSizeHorizontal(16),
   },
   Notestxt: {
